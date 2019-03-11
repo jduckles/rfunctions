@@ -8,19 +8,17 @@ compute_thi <- function(temp_c,humid_pct) {
 }
 
 
-temp <- 25:45
-humid <- seq(25,100,by=5)
-crosses <-crossing(temp,humid)
+plot_thi <- function(temp = 25:45,
+                     humid = seq(25, 100, by = 5)) {
+  crosses <- crossing(temp, humid)
+  
+  o <- crosses %>% mutate(thi = compute_thi(temp, humid))
+  
+  ggplot(o, aes(x = humid, y = temp)) +
+    geom_contour(aes(z = thi)) +
+    scale_y_reverse() +
+    geom_label_contour(aes(z = thi))
+}
 
-o <- crosses %>% mutate(thi=compute_thi(temp, humid)) 
-
-
-ggplot(o, aes(x=humid, y=temp)) + geom_point()
-
-
-ggplot(o, aes(x=humid, y=temp)) + 
-  geom_contour(aes(z=thi)) + 
-  scale_y_reverse() + 
-  geom_label_contour(aes(z=thi)) 
 
 
